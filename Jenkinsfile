@@ -3,7 +3,7 @@ node('master') {
 
     // modify node_name and ip address fields  //
     // ---------------------------------------//
-    def node_name           = 'chefAutoMat249'
+    def node_name           = 'chefAutoMat250'
     def vm_ip               = '10.118.41.249'
     //---------------------------------------//
 
@@ -45,7 +45,7 @@ node('master') {
         timeout(time: 45, unit: 'SECONDS'){
             waitUntil{
                 def ret = sh(script: 'knife vsphere vm list', returnStdout: true)
-                println ret
+                //println ret
                 return ret.contains("${node_name}")
             }
         }
