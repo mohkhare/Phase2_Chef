@@ -1,6 +1,16 @@
 node('master') {
     checkout scm
 
+    def node_name           = 'chefAutoMat248'
+    def vm_ip               = '10.118.41.248/24'
+    def vm_template         = 'CentOsTemplate'
+    def vm_resource_pool    = 'Compute/Chef_Test'
+    def vm_spec             =  'CentOs_Chef'
+    def vm_domain           =  'csa.local'
+    def ssh_user            = 'root'
+    def ssh_pwd             = 'Password1'
+
+
     dir('chef-repo'){
 
         stage('Get Chef Repo'){
@@ -30,14 +40,14 @@ node('master') {
         }      
 
                 
-        // stage('Creat VM') {
+        stage('Creat VM') {
 
-        //     if (isUnix()) {
-        //         sh "knife vsphere vm clone chefAutoMat247 --template CentOsTemplate --start true --node-name chefAutoMat247 --resource-pool 'Compute/Chef_Test' --cspec CentOs_Chef --cips 10.118.41.247/24 --cdomain csa.local --verbose"
-        //     } else {
-        //         bat(/knife vsphere vm clone chefAutoMat247 --template CentOsTemplate --start true --node-name chefAutoMat247 --resource-pool "Compute\/\Chef_Test" --cspec CentOs_Chef --cips 10.118.41.247\/\24 --cdomain csa.local --verbose/)
-        //     }
-        // }
+            if (isUnix()) {
+                sh "knife vsphere vm clone chefAutoMat247 --template CentOsTemplate --start true --node-name chefAutoMat247 --resource-pool 'Compute/Chef_Test' --cspec CentOs_Chef --cips 10.118.41.247/24 --cdomain csa.local --verbose"
+            } else {
+                bat(/knife vsphere vm clone "${node_name}" --template "${vm_template}" --start true --node-name "${node_name}" --resource-pool "${vm_resource_pool}" --cspec "${vm_spec}" --cips "${vm_ip}" --cdomain "${vm_domain}" --verbose/)
+            }
+        }
         
         
         // stage('Add VM as chef node') {
