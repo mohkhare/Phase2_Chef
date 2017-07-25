@@ -45,6 +45,7 @@ node('master') {
 
         def ret = sh(script: 'knife cookbook list', returnStdout: true)
         println ret
+        println ret.contains("${node_name}")
 
                 
         // stage('Creat VM') {
