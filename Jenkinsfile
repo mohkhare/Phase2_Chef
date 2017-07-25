@@ -54,42 +54,42 @@ node('master') {
         // }
         
         
-        stage('Add VM as chef node') {
+        // stage('Add VM as chef node') {
 
-            if (isUnix()) {
-                sh "knife bootstrap ${vm_ip} --ssh-user ${ssh_user} --ssh-password ${ssh_pwd} --node-name ${node_name} --sudo --verbose"
-            } else {
-                //bat(/knife bootstrap 10.118.41.247 --ssh-user root --ssh-password Password1 --node-name chefAutoMat247 --sudo --verbose/)
-            }
-        }
-
-        // stage('Install docker on VM') {
-
-        //     stage('Add recipe') {
-    
-        //         if (isUnix()) {
-        //             sh "knife node run_list add chefAutoMat241 'role[dockerinstall]'"
-        //         } else {
-        //             bat(/knife node run_list add chefAutoMat241 'role[dockerinstall]'/)
-        //         }
-        //     }
-        //     stage('run recipe on node') {
-    
-        //         if (isUnix()) {
-        //             sh "knife ssh 'name:chefAutoMat241' 'sudo chef-client' -a ipaddress --ssh-user root --ssh-password Password1 --verbose"
-        //         } else {
-        //             bat(/knife ssh 'name:chefAutoMat241' 'sudo chef-client' -a ipaddress --ssh-user root --ssh-password Password1 --verbose/)
-        //         }
-        //     }
-        //     stage('Remove recipe') {
-    
-        //         if (isUnix()) {
-        //             sh "knife node run_list remove chefAutoMat241 'role[dockerinstall]'"
-        //         } else {
-        //             bat(/knife node run_list remove chefAutoMat241 'role[dockerinstall]'/)
-        //         }
+        //     if (isUnix()) {
+        //         sh "knife bootstrap ${vm_ip} --ssh-user ${ssh_user} --ssh-password ${ssh_pwd} --node-name ${node_name} --sudo --verbose"
+        //     } else {
+        //         //bat(/knife bootstrap 10.118.41.247 --ssh-user root --ssh-password Password1 --node-name chefAutoMat247 --sudo --verbose/)
         //     }
         // }
+
+        stage('Install docker on VM') {
+
+            stage('Add recipe') {
+    
+                if (isUnix()) {
+                    sh "knife node run_list add ${node_name} 'role[dockerinstall]'"
+                } else {
+                    //bat(/knife node run_list add chefAutoMat241 'role[dockerinstall]'/)
+                }
+            }
+            stage('run recipe on node') {
+    
+                if (isUnix()) {
+                    sh "knife ssh 'name:${node_name}' 'sudo chef-client' -a ipaddress --ssh-user ${ssh_user} --ssh-password ${ssh_pwd} --verbose"
+                } else {
+                    //bat(/knife ssh 'name:chefAutoMat241' 'sudo chef-client' -a ipaddress --ssh-user root --ssh-password Password1 --verbose/)
+                }
+            }
+            stage('Remove recipe') {
+    
+                if (isUnix()) {
+                    sh "knife node run_list remove ${node_name} 'role[dockerinstall]'"
+                } else {
+                   // bat(/knife node run_list remove chefAutoMat241 'role[dockerinstall]'/)
+                }
+            }
+        }
         // stage('Pull and run container') {
 
         //     stage('Add recipe') {
