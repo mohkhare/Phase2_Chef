@@ -3,8 +3,8 @@ node('master') {
 
     // modify node_name and ip address fields  //
     // ---------------------------------------//
-    def node_name           = 'chefAutoMat242'
-    def vm_ip               = '10.118.41.242'
+    def node_name           = 'chefAutoMat243'
+    def vm_ip               = '10.118.41.243'
     //---------------------------------------//
 
     def vm_template         = 'CentOsTemplate'
@@ -45,14 +45,14 @@ node('master') {
 
 
                 
-        // stage('Creat VM') {
+        stage('Creat VM') {
 
-        //     if (isUnix()) {
-        //         sh "knife vsphere vm clone ${node_name} --template ${vm_template} --start true --node-name ${node_name} --resource-pool ${vm_resource_pool} --cspec ${vm_spec} --cips '${vm_ip}/24' --cdomain ${vm_domain} --verbose"
-        //     } else {
-        //         //bat(/knife vsphere vm clone "${node_name}" --template "${vm_template}" --start true --node-name "${node_name}" --resource-pool "${vm_resource_pool}" --cspec "${vm_spec}" --cips "${vm_ip}" --cdomain "${vm_domain}" --verbose/)
-        //     }
-        // }
+            if (isUnix()) {
+                sh "knife vsphere vm clone ${node_name} --template ${vm_template} --start true --node-name ${node_name} --resource-pool ${vm_resource_pool} --cspec ${vm_spec} --cips '${vm_ip}/24' --cdomain ${vm_domain} --verbose"
+            } else {
+                //bat(/knife vsphere vm clone "${node_name}" --template "${vm_template}" --start true --node-name "${node_name}" --resource-pool "${vm_resource_pool}" --cspec "${vm_spec}" --cips "${vm_ip}" --cdomain "${vm_domain}" --verbose/)
+            }
+        }
         
             timeout(time: 60, unit: 'SECONDS'){
                 waitUntil{
@@ -63,23 +63,23 @@ node('master') {
                 }
             }
         
-        // stage('Add VM as chef node') {
-        //     // timeout(time: 30, unit: 'SECONDS'){
-        //     //     waitUntil{
-        //     //         //def ret = sh(script: "ping ${vm_ip}", returnStatus: true)
-        //     //         //println ret
-        //     //         return false
-        //     //     }
-        //     // }
+        stage('Add VM as chef node') {
+            // timeout(time: 30, unit: 'SECONDS'){
+            //     waitUntil{
+            //         //def ret = sh(script: "ping ${vm_ip}", returnStatus: true)
+            //         //println ret
+            //         return false
+            //     }
+            // }
 
-        //     sleep 60
+            //sleep 60
 
-        //     if (isUnix()) {
-        //         sh "knife bootstrap ${vm_ip} --ssh-user ${ssh_user} --ssh-password ${ssh_pwd} --node-name ${node_name} --sudo --verbose"
-        //     } else {
-        //         //bat(/knife bootstrap 10.118.41.247 --ssh-user root --ssh-password Password1 --node-name chefAutoMat247 --sudo --verbose/)
-        //     }
-        // }
+            if (isUnix()) {
+                sh "knife bootstrap ${vm_ip} --ssh-user ${ssh_user} --ssh-password ${ssh_pwd} --node-name ${node_name} --sudo --verbose"
+            } else {
+                //bat(/knife bootstrap 10.118.41.247 --ssh-user root --ssh-password Password1 --node-name chefAutoMat247 --sudo --verbose/)
+            }
+        }
 
         // stage('Install docker on VM') {
 
