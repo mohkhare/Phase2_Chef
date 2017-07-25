@@ -43,7 +43,7 @@ node('master') {
 
         // }      
 
-        def ret = sh(script: 'uname', returnStdout: true)
+        def ret = sh(script: 'knife cookbook list', returnStdout: true)
         println ret
 
                 
