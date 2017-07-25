@@ -43,7 +43,7 @@ node('master') {
 
         // }      
         timeout(time: 45, unit: 'SECONDS'){
-            waitUnit{
+            waitUntil{
                 def ret = sh(script: 'knife vsphere vm list', returnStdout: true)
                 println ret
                 return ret.contains("${node_name}")
