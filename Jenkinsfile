@@ -43,7 +43,7 @@ node('master') {
         stage('Creat VM') {
 
             if (isUnix()) {
-                sh "knife vsphere vm clone chefAutoMat247 --template CentOsTemplate --start true --node-name chefAutoMat247 --resource-pool 'Compute/Chef_Test' --cspec CentOs_Chef --cips 10.118.41.247/24 --cdomain csa.local --verbose"
+                sh "knife vsphere vm clone ${node_name} --template ${vm_template} --start true --node-name ${node_name} --resource-pool ${vm_resource_pool} --cspec ${vm_spec} --cips ${vm_ip} --cdomain ${vm_domain} --verbose"
             } else {
                 bat(/knife vsphere vm clone "${node_name}" --template "${vm_template}" --start true --node-name "${node_name}" --resource-pool "${vm_resource_pool}" --cspec "${vm_spec}" --cips "${vm_ip}" --cdomain "${vm_domain}" --verbose/)
             }
