@@ -56,11 +56,11 @@ node('master') {
         
         
         stage('Add VM as chef node') {
-            timeout(time: 45, unit: 'SECONDS'){
+            timeout(time: 30, unit: 'SECONDS'){
                 waitUntil{
-                    def ret = sh(script: "ping ${vm_ip}", returnStatus: true)
+                    //def ret = sh(script: "ping ${vm_ip}", returnStatus: true)
                     //println ret
-                    return (ret == 0)
+                    return false
                 }
             }
 
