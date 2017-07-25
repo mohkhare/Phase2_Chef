@@ -3,8 +3,8 @@ node('master') {
 
     // modify node_name and ip address fields  //
     // ---------------------------------------//
-    def node_name           = 'chefAutoMat250'
-    def vm_ip               = '10.118.41.250'
+    def node_name           = 'chefAutoMat240'
+    def vm_ip               = '10.118.41.240'
     //---------------------------------------//
 
     def vm_template         = 'CentOsTemplate'
@@ -45,14 +45,14 @@ node('master') {
 
 
                 
-        // stage('Creat VM') {
+        stage('Creat VM') {
 
-        //     if (isUnix()) {
-        //         sh "knife vsphere vm clone ${node_name} --template ${vm_template} --start true --node-name ${node_name} --resource-pool ${vm_resource_pool} --cspec ${vm_spec} --cips '${vm_ip}/24' --cdomain ${vm_domain} --verbose"
-        //     } else {
-        //         //bat(/knife vsphere vm clone "${node_name}" --template "${vm_template}" --start true --node-name "${node_name}" --resource-pool "${vm_resource_pool}" --cspec "${vm_spec}" --cips "${vm_ip}" --cdomain "${vm_domain}" --verbose/)
-        //     }
-        // }
+            if (isUnix()) {
+                sh "knife vsphere vm clone ${node_name} --template ${vm_template} --start true --node-name ${node_name} --resource-pool ${vm_resource_pool} --cspec ${vm_spec} --cips '${vm_ip}/24' --cdomain ${vm_domain} --verbose"
+            } else {
+                //bat(/knife vsphere vm clone "${node_name}" --template "${vm_template}" --start true --node-name "${node_name}" --resource-pool "${vm_resource_pool}" --cspec "${vm_spec}" --cips "${vm_ip}" --cdomain "${vm_domain}" --verbose/)
+            }
+        }
         
         
         stage('Add VM as chef node') {
