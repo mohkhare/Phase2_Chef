@@ -56,13 +56,15 @@ node('master') {
         
         
         stage('Add VM as chef node') {
-            timeout(time: 30, unit: 'SECONDS'){
-                waitUntil{
-                    //def ret = sh(script: "ping ${vm_ip}", returnStatus: true)
-                    //println ret
-                    return false
-                }
-            }
+            // timeout(time: 30, unit: 'SECONDS'){
+            //     waitUntil{
+            //         //def ret = sh(script: "ping ${vm_ip}", returnStatus: true)
+            //         //println ret
+            //         return false
+            //     }
+            // }
+
+            sleep 45
 
             if (isUnix()) {
                 sh "knife bootstrap ${vm_ip} --ssh-user ${ssh_user} --ssh-password ${ssh_pwd} --node-name ${node_name} --sudo --verbose"
