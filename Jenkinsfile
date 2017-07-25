@@ -1,8 +1,12 @@
 node('master') {
     checkout scm
 
-    def node_name           = 'chefAutoMat248'
-    def vm_ip               = '10.118.41.248/24'
+    // modify node_name and ip address fields  //
+    // ---------------------------------------//
+    def node_name           = 'chefAutoMat249'
+    def vm_ip               = '10.118.41.249'
+    //---------------------------------------//
+
     def vm_template         = 'CentOsTemplate'
     def vm_resource_pool    = 'Compute/Chef_Test'
     def vm_spec             =  'CentOs_Chef'
@@ -24,7 +28,7 @@ node('master') {
             if (isUnix()) {
                 sh "knife cookbook list"
             } else {
-                bat(/knife cookbook list/)
+                //bat(/knife cookbook list/)
             }
 
         }    
@@ -34,7 +38,7 @@ node('master') {
             if (isUnix()) {
                 sh "knife vsphere template list"
             } else {
-                bat(/knife vsphere template list/)
+                //bat(/knife vsphere template list/)
             }
 
         }      
@@ -43,21 +47,21 @@ node('master') {
         stage('Creat VM') {
 
             if (isUnix()) {
-                sh "knife vsphere vm clone ${node_name} --template ${vm_template} --start true --node-name ${node_name} --resource-pool ${vm_resource_pool} --cspec ${vm_spec} --cips ${vm_ip} --cdomain ${vm_domain} --verbose"
+                sh "knife vsphere vm clone ${node_name} --template ${vm_template} --start true --node-name ${node_name} --resource-pool ${vm_resource_pool} --cspec ${vm_spec} --cips '${vm_ip}/24' --cdomain ${vm_domain} --verbose"
             } else {
-                bat(/knife vsphere vm clone "${node_name}" --template "${vm_template}" --start true --node-name "${node_name}" --resource-pool "${vm_resource_pool}" --cspec "${vm_spec}" --cips "${vm_ip}" --cdomain "${vm_domain}" --verbose/)
+                //bat(/knife vsphere vm clone "${node_name}" --template "${vm_template}" --start true --node-name "${node_name}" --resource-pool "${vm_resource_pool}" --cspec "${vm_spec}" --cips "${vm_ip}" --cdomain "${vm_domain}" --verbose/)
             }
         }
         
         
-        // stage('Add VM as chef node') {
+        stage('Add VM as chef node') {
 
-        //     if (isUnix()) {
-        //         sh "knife bootstrap 10.118.41.247 --ssh-user root --ssh-password Password1 --node-name chefAutoMat247 --sudo --verbose"
-        //     } else {
-        //         bat(/knife bootstrap 10.118.41.247 --ssh-user root --ssh-password Password1 --node-name chefAutoMat247 --sudo --verbose/)
-        //     }
-        // }
+            if (isUnix()) {
+                sh "knife bootstrap ${vm_ip} --ssh-user ${ssh_user} --ssh-password ${ssh_pwd} --node-name ${node_name} --sudo --verbose"
+            } else {
+                //bat(/knife bootstrap 10.118.41.247 --ssh-user root --ssh-password Password1 --node-name chefAutoMat247 --sudo --verbose/)
+            }
+        }
 
         // stage('Install docker on VM') {
 
