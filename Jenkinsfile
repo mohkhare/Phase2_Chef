@@ -42,10 +42,13 @@ node('master') {
         //     }
 
         // }      
-
-        def ret = sh(script: 'knife vsphere vm list', returnStdout: true)
-        println ret
-        println ret.contains("${node_name}")
+        timeout(time: 45, unit: 'SECONDS'){
+            waitUnit{
+                def ret = sh(script: 'knife vsphere vm list', returnStdout: true)
+                println ret
+                return ret.contains("${node_name}")
+            }
+        }
 
                 
         // stage('Creat VM') {
